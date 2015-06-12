@@ -1,8 +1,13 @@
 package com.appsoluteperfection.graphite.builders;
 
 public class GraphiteSearchUrlBuilderImpl implements GraphiteSearchUrlBuilder{
-    private static String baseUrl = "http://graphite.local.uship.com/";
+    private static String baseUrl = "http://graphite.local.uship.com/metrics/json/find?query=";
+    // example query: http://graphite.local.uship.com/metrics/json/find?query=stats.*
     public String buildFrom(String graphiteCollection){
-        return "http://graphite.local.uship.com/render?target=stats.timers.RabbitMessageReceived.BidCreatedEvent.count";
+        return appendBase(graphiteCollection);
+    }
+
+    private String appendBase(String s){
+        return baseUrl + s + ".*";
     }
 }
