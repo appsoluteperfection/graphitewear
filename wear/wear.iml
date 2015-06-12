@@ -90,8 +90,8 @@
     <orderEntry type="library" exported="" name="play-services-base-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.0.0" level="project" />
     <orderEntry type="library" exported="" name="roboguice-3.0" level="project" />
-    <orderEntry type="library" exported="" name="roboblender-3.0" level="project" />
     <orderEntry type="library" exported="" name="commons-collections-3.2.1" level="project" />
+    <orderEntry type="library" exported="" name="roboblender-3.0" level="project" />
     <orderEntry type="library" exported="" name="commons-lang3-3.3.2" level="project" />
     <orderEntry type="library" exported="" name="jackson-annotations-2.5.0" level="project" />
     <orderEntry type="library" exported="" name="jackson-core-2.5.0" level="project" />
