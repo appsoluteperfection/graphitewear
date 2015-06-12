@@ -1,6 +1,7 @@
 package com.appsoluteperfection.graphite.repositories;
 
 import com.appsoluteperfection.graphite.builders.GraphiteSearchUrlBuilder;
+import com.appsoluteperfection.graphite.clients.GraphiteClientImpl;
 import com.appsoluteperfection.graphite.clients.JsonRestClient;
 import com.appsoluteperfection.graphite.dtos.GraphiteEntryDto;
 
@@ -14,11 +15,11 @@ public class GraphiteUrlsRepositoryImpl implements GraphiteUrlsRepository{
 
     private Collection<GraphiteEntryDto> _graphiteUrls = null;
     private GraphiteSearchUrlBuilder _urlBuilder;
-    private JsonRestClient _jsonClient;
+    private GraphiteClientImpl graphiteClient;
 
-    public GraphiteUrlsRepositoryImpl(GraphiteSearchUrlBuilder urlBuilder, JsonRestClient jsonClient) {
+    public GraphiteUrlsRepositoryImpl(GraphiteSearchUrlBuilder urlBuilder, GraphiteClientImpl graphiteClient) {
         _urlBuilder = urlBuilder;
-        _jsonClient = jsonClient;
+        this.graphiteClient = graphiteClient;
     }
 
 
@@ -40,8 +41,7 @@ public class GraphiteUrlsRepositoryImpl implements GraphiteUrlsRepository{
     }
 
     private void searchHelper(String currentNode){
-        String nodeUrl = _urlBuilder.buildFrom(currentNode);
-        Collection<GraphiteEntryDto> childNodes = _jsonClient.get(nodeUrl);
+        Collection<GraphiteEntryDto> childNodes = graphiteClient.getGraphsFrom(currentNode);
         for(GraphiteEntryDto entry : childNodes){
             if(entry.Leaf == 1){
                 _graphiteUrls.add(entry);
@@ -50,4 +50,6 @@ public class GraphiteUrlsRepositoryImpl implements GraphiteUrlsRepository{
             }
         }
     }
+
+
 }
