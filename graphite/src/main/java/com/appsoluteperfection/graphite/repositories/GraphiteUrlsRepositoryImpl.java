@@ -8,20 +8,16 @@ import com.appsoluteperfection.graphite.dtos.GraphiteEntryDto;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * Created by cvernino on 6/12/2015.
- */
 public class GraphiteUrlsRepositoryImpl implements GraphiteUrlsRepository{
 
     private Collection<GraphiteEntryDto> _graphiteUrls = null;
     private GraphiteSearchUrlBuilder _urlBuilder;
-    private GraphiteClientImpl graphiteClient;
+    private GraphiteClientImpl _graphiteClient;
 
     public GraphiteUrlsRepositoryImpl(GraphiteSearchUrlBuilder urlBuilder, GraphiteClientImpl graphiteClient) {
         _urlBuilder = urlBuilder;
-        this.graphiteClient = graphiteClient;
+        _graphiteClient = graphiteClient;
     }
-
 
     @Override
     public Collection<GraphiteEntryDto> getAll() {
@@ -41,7 +37,7 @@ public class GraphiteUrlsRepositoryImpl implements GraphiteUrlsRepository{
     }
 
     private void searchHelper(String currentNode){
-        Collection<GraphiteEntryDto> childNodes = graphiteClient.getGraphsFrom(currentNode);
+        Collection<GraphiteEntryDto> childNodes = _graphiteClient.getGraphsFrom(currentNode);
         for(GraphiteEntryDto entry : childNodes){
             if(entry.Leaf == 1){
                 _graphiteUrls.add(entry);

@@ -10,14 +10,14 @@ import java.util.LinkedList;
 
 public class GraphiteQueryImpl implements GraphiteQuery {
 
-    private GraphiteSearchUrlBuilder urlBuilder;
+    private GraphiteSearchUrlBuilder _urlBuilder;
 
     public GraphiteQueryImpl(GraphiteSearchUrlBuilder urlBuilder){
-        this.urlBuilder = urlBuilder;
+        this._urlBuilder = urlBuilder;
     }
     public Collection<Graph> getGraphFromSearchString(String searchString){
         if (null == searchString || "".equals(searchString.trim())) return new LinkedList<>();
-        String url = urlBuilder.buildFrom(searchString);
+        String url = _urlBuilder.buildFrom(searchString);
         return new LinkedList<>();
     }
 }
