@@ -1,10 +1,10 @@
 package com.appsoluteperfection.graphite.configuration;
 
-public class SettingsImpl implements Settings {
+public class ApplicationSettingsImpl implements ApplicationSettings {
 
     private String _graphiteServerBaseUrl;
 
-    public SettingsImpl(String graphiteServerBaseUrl) {
+    public ApplicationSettingsImpl(String graphiteServerBaseUrl) {
         _graphiteServerBaseUrl = graphiteServerBaseUrl;
     }
 

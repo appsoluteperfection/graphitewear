@@ -19,6 +19,7 @@ public class GraphiteClientImpl implements GraphiteClient {
         String searchUrl = _urlBuilder.buildFrom(searchString);
 
         Collection<GraphiteEntryDto> graphiteEntries = _restClient.get(searchUrl);
+        // TODO, dto to entity
         return graphiteEntries;
     }
 
