@@ -50,23 +50,16 @@ public class GraphiteQueryImplTests extends ApplicationTestCase<Application> {
 
     public void testShouldCallUrlBuilderIfAnySearchPassedIn(){
         // Arrange
-        final Message wasCalled = new Message();
-        wasCalled.obj = false;
-        mockUrlBuilder.buildFrom(EasyMock.anyString());
-        EasyMock.expectLastCall().andAnswer(new IAnswer<Object>() {
-            @Override
-            public Object answer() throws Throwable {
-                wasCalled.obj = true;
-                throw new Exception("Fuck!");
-//                return null;
-            }
-        }).atLeastOnce();
+        EasyMock.expect(mockUrlBuilder.buildFrom(EasyMock.anyString()))
+                .andReturn("anything")
+                .atLeastOnce();
+        EasyMock.replay(mockUrlBuilder);
         GraphiteQueryImpl classUnderTest = new GraphiteQueryImpl(mockUrlBuilder);
 
         // Act
         classUnderTest.getGraphFromSearchString("Ramalamadingdong");
 
         // Assert
-        Assert.assertEquals(true, wasCalled.obj);
+        EasyMock.verify(mockUrlBuilder);
     }
 }

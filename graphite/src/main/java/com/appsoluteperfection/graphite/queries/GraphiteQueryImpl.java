@@ -18,7 +18,6 @@ public class GraphiteQueryImpl implements GraphiteQuery {
     public Collection<Graph> getGraphFromSearchString(String searchString){
         if (null == searchString || "".equals(searchString.trim())) return new LinkedList<>();
         String url = urlBuilder.buildFrom(searchString);
-        throw new NotImplementedException();
-//        return new LinkedList<>();
+        return new LinkedList<>();
     }
 }
