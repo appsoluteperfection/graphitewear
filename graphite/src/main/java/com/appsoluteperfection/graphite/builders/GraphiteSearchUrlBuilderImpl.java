@@ -3,13 +3,12 @@ package com.appsoluteperfection.graphite.builders;
 import com.appsoluteperfection.graphite.configuration.ApplicationSettings;
 
 public class GraphiteSearchUrlBuilderImpl implements GraphiteSearchUrlBuilder{
-    private static String baseUrl = "http://graphite.local.uship.com/metrics/json/find?query=";
-    // example query: http://graphite.local.uship.com/metrics/json/find?query=stats.*
+
+    private static String baseUrl;
 
     public GraphiteSearchUrlBuilderImpl(ApplicationSettings settings)
     {
-        // TODO, test this from the dependency instead
-        // baseUrl = settings.getGraphiteServerBaseUrl();
+        baseUrl = settings.getGraphiteServerBaseUrl();
     }
 
     public String buildFrom(String graphiteCollection){
@@ -18,6 +17,6 @@ public class GraphiteSearchUrlBuilderImpl implements GraphiteSearchUrlBuilder{
     }
 
     private String appendBase(String s){
-        return baseUrl + s + ".*";
+        return baseUrl + "/graphs?q=" + s;
     }
 }

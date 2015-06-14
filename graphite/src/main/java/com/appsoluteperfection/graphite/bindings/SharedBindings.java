@@ -8,6 +8,8 @@ import com.appsoluteperfection.graphite.clients.GraphiteClient;
 import com.appsoluteperfection.graphite.clients.GraphiteClientImpl;
 import com.appsoluteperfection.graphite.clients.JsonRestClient;
 import com.appsoluteperfection.graphite.clients.JsonRestClientImpl;
+import com.appsoluteperfection.graphite.configuration.ApplicationSettings;
+import com.appsoluteperfection.graphite.configuration.ApplicationSettingsImpl;
 import com.appsoluteperfection.graphite.mocks.MockGraphiteQuery;
 import com.appsoluteperfection.graphite.queries.GraphiteQuery;
 import com.appsoluteperfection.graphite.queries.GraphiteQueryImpl;
@@ -30,6 +32,10 @@ public class SharedBindings extends AbstractModule {
             bind(GraphiteClient.class).to(GraphiteClientImpl.class);
             bind(JsonRestClient.class).to(JsonRestClientImpl.class);
             bind(GraphiteQuery.class).to(GraphiteQueryImpl.class);
+            // TODO, move this to preferences for the phone
+            // I plan on using sguerra.uship for other purposes, using Andy since it is not used
+            bind(ApplicationSettings.class)
+                    .toInstance(new ApplicationSettingsImpl("http://andy.uship.com/api"));
         }
     }
 }
