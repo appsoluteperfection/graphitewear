@@ -23,7 +23,7 @@ import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
 
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends RoboActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     @InjectView(R.id.searchText) EditText searchText;
@@ -57,7 +57,6 @@ public class MainActivity extends ActionBarActivity
     }
 
     private void SetUpUI() {
-        if (btnSearch == null) return; // Drat, this is not injecting, will trace why later
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +124,7 @@ public class MainActivity extends ActionBarActivity
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends RoboFragment {
         /**
          * The fragment argument representing the section number for this
          * fragment.
