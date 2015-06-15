@@ -10,6 +10,7 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+        multiDexEnabled = true
     }
     buildTypes {
         release {
@@ -23,6 +24,7 @@ android {
         exclude 'LICENSE.txt'
         exclude 'APK LICENSE.txt'
         exclude 'META-INF/APK LICENSE.txt'
+        exclude 'META-INF/INDEX.LIST'
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/license.txt'
         exclude 'META-INF/NOTICE'
@@ -37,12 +39,9 @@ dependencies {
     wearApp project(':wear')
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.google.android.gms:play-services:7.0.0'
-
     compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.5.0'
-
     // Roboguice
-    provided 'org.roboguice:roboblender:3.0'
     compile('org.roboguice:roboguice:3.0') {
         exclude module: 'asm'
         exclude module: 'asm 3.3.1'
@@ -51,8 +50,8 @@ dependencies {
         exclude module: 'hamcrest-core'
         exclude module: 'hamcrest'
     }
-
+    provided 'org.roboguice:roboblender:3.0'
     // Testing
     testCompile 'junit:junit:4.12'
-
+    compile project(':graphite')
 }

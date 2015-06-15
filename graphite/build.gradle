@@ -40,7 +40,6 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.5.0'
     // Roboguice
-    provided 'org.roboguice:roboblender:3.0'
     compile('org.roboguice:roboguice:3.0') {
         exclude module: 'asm'
         exclude module: 'asm 3.3.1'

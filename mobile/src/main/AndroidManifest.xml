@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.appsoluteperfection.graphitegear" >
+    package="com.appsoluteperfection.graphitemobile" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
+        android:name="com.appsoluteperfection.graphitemobile.CustomApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="roboguice.modules"
-            android:value="com.appsoluteperfection.graphitegear.bindings.MobileBindings,com.appsoluteperfection.graphitegear.bindings.SharedBindings" />
+            android:value="com.appsoluteperfection.graphitemobile.bindings.MobileBindings,com.appsoluteperfection.graphitewear.bindings.SharedBindings" />
         <meta-data
             android:name="roboguice.annotations.packages"
             android:value="roboguice,databasename" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.appsoluteperfection.graphitemobile.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".ListenerService" >
+        <service android:name="com.appsoluteperfection.graphitemobile.ListenerService" >
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
             </intent-filter>
