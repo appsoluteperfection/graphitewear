@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Graphite</string>
 
-    <string name="title_section1">Search</string>
-    <string name="title_section2">Graph</string>
+    <string name="title_last_search_results_section">Search</string>
+    <string name="title_graph_section">Graph</string>
+    <string name="title_search_history_section">Search History</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

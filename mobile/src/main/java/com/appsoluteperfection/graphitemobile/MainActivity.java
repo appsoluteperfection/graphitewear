@@ -15,9 +15,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
 import com.appsoluteperfection.graphitemobile.NavigationDrawerFragment;
 
+import roboguice.RoboGuice;
 import roboguice.activity.RoboActionBarActivity;
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
@@ -26,8 +28,6 @@ import roboguice.inject.InjectView;
 public class MainActivity extends RoboActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    @InjectView(R.id.searchText) EditText searchText;
-    @InjectView(R.id.btnSearch) ImageButton btnSearch;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -53,16 +53,6 @@ public class MainActivity extends RoboActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        SetUpUI();
-    }
-
-    private void SetUpUI() {
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchText.setText("Hi mom");
-            }
-        });
     }
 
     @Override
@@ -77,10 +67,13 @@ public class MainActivity extends RoboActionBarActivity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                mTitle = getString(R.string.title_section1);
+                mTitle = getString(R.string.title_last_search_results_section);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.title_graph_section);
+                break;
+            case 3:
+                mTitle = getString(R.string.title_search_history_section);
                 break;
         }
     }
@@ -130,8 +123,12 @@ public class MainActivity extends RoboActionBarActivity
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private static final String ARG_SEARCH_STRING = "search_string";
 
+        @InjectView(R.id.searchText) EditText searchText;
+        @InjectView(R.id.btnSearch) ImageButton btnSearch;
         @InjectView(R.id.webViewGraph) WebView webViewGraph;
+        @InjectView(R.id.list) ListView listView;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -149,23 +146,58 @@ public class MainActivity extends RoboActionBarActivity
         }
 
         @Override
+        public void onViewCreated(View view, Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+            RoboGuice.getInjector(getActivity()).injectViewMembers(this);
+            ArrangeUI();
+        }
+
+        @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            ArrangeUI();
             return rootView;
         }
 
         private void ArrangeUI() {
-//            int section = getActivity().getIntent().getIntExtra(ARG_SECTION_NUMBER, 0);
-//            switch (section){
-//                case 1:
-//                    break;
-//                case 2:
-//                    break;
-//                default:
-//                    throw new IllegalArgumentException("Invalid section provided: " + section);
-//            }
+            int section = getActivity().getIntent().getIntExtra(ARG_SECTION_NUMBER, 0);
+            String searchString = getActivity().getIntent().getStringExtra(ARG_SEARCH_STRING);
+            
+            searchText.setText(searchString);
+            btnSearch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO, introduce an enum
+                    setSectionView(0);
+                }
+            });
+            setSectionView(section);
+        }
+
+        private void setSectionView(int section) {
+            // TODO enum
+            // TODO MVP pattern
+            switch (section){
+                case 0: // Search
+                    listView.setVisibility(View.VISIBLE);
+                    webViewGraph.setVisibility(View.GONE);
+                    setSearchItemsFromText();
+                    break;
+                case 1: // Graph
+                    listView.setVisibility(View.GONE);
+                    webViewGraph.setVisibility(View.VISIBLE);
+                    break;
+                case 2: // History
+                    listView.setVisibility(View.VISIBLE);
+                    webViewGraph.setVisibility(View.GONE);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid section provided: " + section);
+            }
+        }
+
+        private void setSearchItemsFromText() {
+
         }
 
         @Override
