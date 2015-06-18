@@ -13,6 +13,8 @@ import com.appsoluteperfection.graphitewear.configuration.ApplicationSettingsImp
 import com.appsoluteperfection.graphitewear.mocks.MockGraphiteQuery;
 import com.appsoluteperfection.graphitewear.queries.GraphiteQuery;
 import com.appsoluteperfection.graphitewear.queries.GraphiteQueryImpl;
+import com.appsoluteperfection.graphitewear.queries.HistoricalQueryCollection;
+import com.appsoluteperfection.graphitewear.queries.HistoricalQueryCollectionImpl;
 import com.google.inject.AbstractModule;
 
 public class SharedBindings extends AbstractModule {
@@ -32,6 +34,9 @@ public class SharedBindings extends AbstractModule {
             bind(GraphiteClient.class).to(GraphiteClientImpl.class);
             bind(JsonRestClient.class).to(JsonRestClientImpl.class);
             bind(GraphiteQuery.class).to(GraphiteQueryImpl.class);
+            bind(HistoricalQueryCollection.class)
+                    .to(HistoricalQueryCollectionImpl.class)
+                    .asEagerSingleton();
             // TODO, move this to preferences for the phone
             // I plan on using sguerra.uship for other purposes, using Andy since it is not used
             bind(ApplicationSettings.class)

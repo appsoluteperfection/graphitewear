@@ -3,8 +3,7 @@ package com.appsoluteperfection.graphitewear.clients;
 import android.os.Message;
 import android.util.Pair;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.appsoluteperfection.graphitewear.serialization.JsonSerializer;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -12,7 +11,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import java.io.IOException;
 import java.net.URI;
 
 import javax.net.ssl.SSLException;
@@ -31,23 +29,13 @@ public class JsonRestClientImpl implements JsonRestClient {
             Ln.e(exception, "Unable to retrieve json result");
             return null;
         }
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         // TODO check for errors
         if (null == results) return null;
         // TODO handle different status codes
 //        if (200 != results.first) return null;
         String json = results.second;
-        // TODO, what the hell, no content
-        if (null == json) return null;
-        try {
-            return objectMapper.readValue(json, c);
-        } catch (IOException e) {
-            // TODO, handle
-            Ln.e(e);
-            return null;
-        }
+        return JsonSerializer.deserialize(json, c);
     }
 
     protected Pair<Integer, String> getWebServiceResult(final String url) throws Exception {

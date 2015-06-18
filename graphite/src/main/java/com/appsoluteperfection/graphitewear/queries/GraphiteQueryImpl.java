@@ -6,7 +6,10 @@ import com.appsoluteperfection.graphitewear.entities.Graph;
 import com.google.inject.Inject;
 
 import java.util.Collection;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class GraphiteQueryImpl implements GraphiteQuery {
 

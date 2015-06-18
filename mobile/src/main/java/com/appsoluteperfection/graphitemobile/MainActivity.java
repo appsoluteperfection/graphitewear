@@ -1,6 +1,7 @@
 package com.appsoluteperfection.graphitemobile;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 import com.appsoluteperfection.graphitemobile.NavigationDrawerFragment;
 import com.appsoluteperfection.graphitewear.entities.Graph;
 import com.appsoluteperfection.graphitewear.queries.GraphiteQuery;
+import com.appsoluteperfection.graphitewear.queries.HistoricalQueryCollection;
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
@@ -150,6 +153,12 @@ public class MainActivity extends RoboActionBarActivity
         @InjectView(R.id.list)
         ListView listView;
 
+        @Inject
+        GraphiteQuery _graphQuery;
+        @Inject
+        HistoricalQueryCollection _history;
+
+
         /**
          * Returns a new instance of this fragment for the given section
          * number.
@@ -188,15 +197,13 @@ public class MainActivity extends RoboActionBarActivity
                 @Override
                 public void onClick(View v) {
                     // TODO, introduce an enum
-                    setSectionView(0);
-                    setGraphs();
+                    setSectionView(1);
+                    setGraphsFromSearchText();
+                    hideKeyboard();
                 }
             });
             setSectionView(section);
         }
-
-        @Inject
-        GraphiteQuery _graphQuery;
 
         private Collection<Graph> _graphs;
         private Collection<Graph> getGraphs() {
@@ -210,12 +217,13 @@ public class MainActivity extends RoboActionBarActivity
         private void setGraph(int position){
             Graph[] graphs = getGraphs().toArray(new Graph[0]);
             _graph = graphs[position];
-            setSectionView(1);
+            setSectionView(2);
             String imageUrl = _graph.getImageUrl();
             webViewGraph.getSettings().setJavaScriptEnabled(true);
             webViewGraph.getSettings().setPluginState(WebSettings.PluginState.ON);
             webViewGraph.setWebViewClient(new WebViewClient());
             webViewGraph.loadUrl(imageUrl);
+            _history.add(_graph);
         }
 
         private String[] getGraphTitles() {
@@ -228,9 +236,14 @@ public class MainActivity extends RoboActionBarActivity
             return ret;
         }
 
-        private void setGraphs() {
+        private void setGraphsFromSearchText() {
             String searchString = searchText.getText().toString();
             _graphs = _graphQuery.getGraphFromSearchString(searchString);
+            setUIFromGraphs();
+        }
+
+        private void setGraphsFromHistory() {
+            _graphs = _history.getAll();
             setUIFromGraphs();
         }
 
@@ -246,44 +259,47 @@ public class MainActivity extends RoboActionBarActivity
                     setGraph(position);
                 }
             });
+        }
 
+        private void hideKeyboard(){
+            InputMethodManager imm =
+                    (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(searchText.getWindowToken(), 0);
         }
 
         private String getStringExtra(String key) {
-            return getActivity().getIntent().getStringExtra(key);
+            return getArguments().getString(key);
         }
 
         private int getIntExtra(String key) {
-            return getActivity().getIntent().getIntExtra(key, 0);
+            return getArguments().getInt(key);
         }
 
         private void setSectionView(int section) {
             // TODO enum
             // TODO MVP pattern
             switch (section) {
-                case 0: // Search
+                // TODO, extract 0 and 2 to be a method, different from 1
+                case 1: // Search
                     listView.setVisibility(View.VISIBLE);
                     txtResults.setVisibility(View.VISIBLE);
                     webViewGraph.setVisibility(View.GONE);
-                    setSearchItemsFromText();
                     break;
-                case 1: // Graph
+                case 2: // Graph
                     listView.setVisibility(View.GONE);
                     txtResults.setVisibility(View.GONE);
                     webViewGraph.setVisibility(View.VISIBLE);
 
                     break;
-                case 2: // History
+                case 3: // History
                     listView.setVisibility(View.VISIBLE);
                     txtResults.setVisibility(View.VISIBLE);
                     webViewGraph.setVisibility(View.GONE);
+                    setGraphsFromHistory();
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid section provided: " + section);
             }
-        }
-
-        private void setSearchItemsFromText() {
         }
 
         @Override
