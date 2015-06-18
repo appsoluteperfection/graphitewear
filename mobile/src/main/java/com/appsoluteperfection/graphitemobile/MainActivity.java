@@ -12,12 +12,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appsoluteperfection.graphitemobile.NavigationDrawerFragment;
+import com.appsoluteperfection.graphitewear.entities.Graph;
+import com.appsoluteperfection.graphitewear.queries.GraphiteQuery;
+import com.google.inject.Inject;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 
 import roboguice.RoboGuice;
 import roboguice.activity.RoboActionBarActivity;
@@ -125,10 +139,14 @@ public class MainActivity extends RoboActionBarActivity
         private static final String ARG_SECTION_NUMBER = "section_number";
         private static final String ARG_SEARCH_STRING = "search_string";
 
-        @InjectView(R.id.searchText) EditText searchText;
-        @InjectView(R.id.btnSearch) ImageButton btnSearch;
-        @InjectView(R.id.webViewGraph) WebView webViewGraph;
-        @InjectView(R.id.list) ListView listView;
+        @InjectView(R.id.searchText)
+        EditText searchText;
+        @InjectView(R.id.btnSearch)
+        ImageButton btnSearch;
+        @InjectView(R.id.webViewGraph)
+        WebView webViewGraph;
+        @InjectView(R.id.list)
+        ListView listView;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -160,24 +178,87 @@ public class MainActivity extends RoboActionBarActivity
         }
 
         private void ArrangeUI() {
-            int section = getActivity().getIntent().getIntExtra(ARG_SECTION_NUMBER, 0);
-            String searchString = getActivity().getIntent().getStringExtra(ARG_SEARCH_STRING);
-            
+            int section = getIntExtra(ARG_SECTION_NUMBER);
+            String searchString = getStringExtra(ARG_SEARCH_STRING);
+
             searchText.setText(searchString);
             btnSearch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // TODO, introduce an enum
                     setSectionView(0);
+                    setGraphs();
                 }
             });
             setSectionView(section);
         }
 
+        @Inject
+        GraphiteQuery _graphQuery;
+
+        private Collection<Graph> _graphs;
+        private Collection<Graph> getGraphs() {
+            if (_graphs != null) {
+                return _graphs;
+            }
+            return new LinkedList<>();
+        }
+
+        private Graph _graph;
+        private void setGraph(int position){
+            Graph[] graphs = getGraphs().toArray(new Graph[0]);
+            _graph = graphs[position];
+            setSectionView(1);
+            String imageUrl = _graph.getImageUrl();
+            webViewGraph.getSettings().setJavaScriptEnabled(true);
+            webViewGraph.getSettings().setPluginState(WebSettings.PluginState.ON);
+            webViewGraph.setWebViewClient(new WebViewClient());
+
+            webViewGraph.loadUrl(imageUrl);
+        }
+
+        private String[] getGraphTitles() {
+            // TODO, get this to work with just graphs
+            Graph[] graphs = getGraphs().toArray(new Graph[0]);
+            String[] ret = new String[graphs.length];
+            for (int i = 0; i < ret.length; i++) {
+                ret[i] = graphs[i].getId();
+            }
+            return ret;
+        }
+
+        private void setGraphs() {
+            String searchString = searchText.getText().toString();
+            _graphs = _graphQuery.getGraphFromSearchString(searchString);
+            setUIFromGraphs();
+        }
+
+        private void setUIFromGraphs() {
+            String[] graphTitles = getGraphTitles();
+            listView.setAdapter(new ArrayAdapter<>(getActivity(),
+                    android.R.layout.simple_list_item_1, graphTitles));
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    setGraph(position);
+                }
+            });
+
+        }
+
+        private String getStringExtra(String key) {
+            return getActivity().getIntent().getStringExtra(key);
+        }
+
+        private int getIntExtra(String key) {
+            return getActivity().getIntent().getIntExtra(key, 0);
+        }
+
         private void setSectionView(int section) {
             // TODO enum
             // TODO MVP pattern
-            switch (section){
+            switch (section) {
                 case 0: // Search
                     listView.setVisibility(View.VISIBLE);
                     webViewGraph.setVisibility(View.GONE);
@@ -186,6 +267,7 @@ public class MainActivity extends RoboActionBarActivity
                 case 1: // Graph
                     listView.setVisibility(View.GONE);
                     webViewGraph.setVisibility(View.VISIBLE);
+
                     break;
                 case 2: // History
                     listView.setVisibility(View.VISIBLE);
@@ -197,7 +279,6 @@ public class MainActivity extends RoboActionBarActivity
         }
 
         private void setSearchItemsFromText() {
-
         }
 
         @Override
