@@ -145,6 +145,8 @@ public class MainActivity extends RoboActionBarActivity
         ImageButton btnSearch;
         @InjectView(R.id.webViewGraph)
         WebView webViewGraph;
+        @InjectView(R.id.txtResults)
+        TextView txtResults;
         @InjectView(R.id.list)
         ListView listView;
 
@@ -213,7 +215,6 @@ public class MainActivity extends RoboActionBarActivity
             webViewGraph.getSettings().setJavaScriptEnabled(true);
             webViewGraph.getSettings().setPluginState(WebSettings.PluginState.ON);
             webViewGraph.setWebViewClient(new WebViewClient());
-
             webViewGraph.loadUrl(imageUrl);
         }
 
@@ -235,6 +236,7 @@ public class MainActivity extends RoboActionBarActivity
 
         private void setUIFromGraphs() {
             String[] graphTitles = getGraphTitles();
+            txtResults.setText("" + graphTitles.length + " result(s) found");
             listView.setAdapter(new ArrayAdapter<>(getActivity(),
                     android.R.layout.simple_list_item_1, graphTitles));
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -261,16 +263,19 @@ public class MainActivity extends RoboActionBarActivity
             switch (section) {
                 case 0: // Search
                     listView.setVisibility(View.VISIBLE);
+                    txtResults.setVisibility(View.VISIBLE);
                     webViewGraph.setVisibility(View.GONE);
                     setSearchItemsFromText();
                     break;
                 case 1: // Graph
                     listView.setVisibility(View.GONE);
+                    txtResults.setVisibility(View.GONE);
                     webViewGraph.setVisibility(View.VISIBLE);
 
                     break;
                 case 2: // History
                     listView.setVisibility(View.VISIBLE);
+                    txtResults.setVisibility(View.VISIBLE);
                     webViewGraph.setVisibility(View.GONE);
                     break;
                 default:
