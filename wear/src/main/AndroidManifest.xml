@@ -16,7 +16,7 @@
         android:theme="@android:style/Theme.DeviceDefault" >
         <meta-data
             android:name="roboguice.modules"
-            android:value="com.appsoluteperfection.graphitewear.bindings.MobileBindings" />
+            android:value="com.appsoluteperfection.graphitewear.bindings.SharedBindings" />
         <meta-data
             android:name="roboguice.annotations.packages"
             android:value="roboguice,databasename" />

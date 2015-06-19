@@ -23,10 +23,11 @@ import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
 
 public class GraphListActivity extends RoboActivity {
 
-    @Inject ListView listView;
+    @InjectView(R.id.list) ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

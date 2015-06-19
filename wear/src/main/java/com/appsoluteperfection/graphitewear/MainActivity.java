@@ -9,10 +9,11 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
 
 public class MainActivity extends RoboActivity {
 
-    private WebView webViewGraph;
+    @InjectView(R.id.graph) WebView webViewGraph;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
