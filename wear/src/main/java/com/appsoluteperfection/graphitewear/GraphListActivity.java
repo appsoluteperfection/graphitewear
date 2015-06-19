@@ -17,23 +17,22 @@ import com.appsoluteperfection.graphitewear.entities.Graph;
 import com.appsoluteperfection.graphitewear.serialization.JsonSerializer;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.Wearable;
-import com.google.inject.Inject;
 
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 import roboguice.activity.RoboActivity;
-import roboguice.inject.InjectView;
 
 public class GraphListActivity extends RoboActivity {
 
-    @InjectView(R.id.list) ListView listView;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_list);
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
+        listView = (ListView)stub.findViewById(R.id.list);
         final String graphResponse = getIntent().getStringExtra("graphResponse");
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
