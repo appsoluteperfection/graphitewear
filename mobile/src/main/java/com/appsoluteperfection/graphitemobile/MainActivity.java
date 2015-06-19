@@ -226,16 +226,6 @@ public class MainActivity extends RoboActionBarActivity
             _history.add(_graph);
         }
 
-        private String[] getGraphTitles() {
-            // TODO, get this to work with just graphs
-            Graph[] graphs = getGraphs().toArray(new Graph[0]);
-            String[] ret = new String[graphs.length];
-            for (int i = 0; i < ret.length; i++) {
-                ret[i] = graphs[i].getId();
-            }
-            return ret;
-        }
-
         private void setGraphsFromSearchText() {
             String searchString = searchText.getText().toString();
             _graphs = _graphQuery.getGraphFromSearchString(searchString);
@@ -248,10 +238,10 @@ public class MainActivity extends RoboActionBarActivity
         }
 
         private void setUIFromGraphs() {
-            String[] graphTitles = getGraphTitles();
-            txtResults.setText("" + graphTitles.length + " result(s) found");
+            Graph[] graphs = _graphs.toArray(new Graph[_graphs.size()]);
+            txtResults.setText("" + graphs.length + " result(s) found");
             listView.setAdapter(new ArrayAdapter<>(getActivity(),
-                    android.R.layout.simple_list_item_1, graphTitles));
+                    android.R.layout.simple_list_item_1, graphs));
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
@@ -289,7 +279,6 @@ public class MainActivity extends RoboActionBarActivity
                     listView.setVisibility(View.GONE);
                     txtResults.setVisibility(View.GONE);
                     webViewGraph.setVisibility(View.VISIBLE);
-
                     break;
                 case 3: // History
                     listView.setVisibility(View.VISIBLE);

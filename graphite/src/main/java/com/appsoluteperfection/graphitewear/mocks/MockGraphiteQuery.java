@@ -8,8 +8,13 @@ import java.util.LinkedList;
 
 public class MockGraphiteQuery implements GraphiteQuery {
     @Override
-    public Collection<Graph> getGraphFromSearchString(String searchString) {
+    public Collection<Graph> getAll() {
         LinkedList<Graph> graphs = new LinkedList<>();
         return graphs;
+    }
+
+    @Override
+    public Collection<Graph> getGraphFromSearchString(String searchString) {
+        return getAll();
     }
 }

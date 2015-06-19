@@ -35,8 +35,7 @@ public class SharedBindings extends AbstractModule {
             bind(JsonRestClient.class).to(JsonRestClientImpl.class);
             bind(GraphiteQuery.class).to(GraphiteQueryImpl.class);
             bind(HistoricalQueryCollection.class)
-                    .to(HistoricalQueryCollectionImpl.class)
-                    .asEagerSingleton();
+                    .toInstance(HistoricalQueryCollectionImpl.getInstance());
             // TODO, move this to preferences for the phone
             // I plan on using sguerra.uship for other purposes, using Andy since it is not used
             bind(ApplicationSettings.class)

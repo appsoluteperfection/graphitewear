@@ -6,5 +6,6 @@ import java.util.Collection;
 
 public interface GraphiteQuery{
 
+    public Collection<Graph> getAll();
     public Collection<Graph> getGraphFromSearchString(String searchString);
 }

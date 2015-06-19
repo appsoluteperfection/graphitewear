@@ -15,6 +15,11 @@ public class GraphiteQueryImpl implements GraphiteQuery {
 
     @Inject GraphiteClient _graphiteClient;
 
+    @Override
+    public Collection<Graph> getAll() {
+        return getGraphFromSearchString("");
+    }
+
     public Collection<Graph> getGraphFromSearchString(String searchString){
         Collection<GraphiteEntryDto> dtos = _graphiteClient.getGraphsFrom(searchString);
         Collection<Graph> graphs = new LinkedList<>();

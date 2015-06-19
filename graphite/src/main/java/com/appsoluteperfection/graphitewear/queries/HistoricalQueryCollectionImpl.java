@@ -7,6 +7,17 @@ import java.util.HashSet;
 
 public class HistoricalQueryCollectionImpl implements HistoricalQueryCollection {
 
+    // TODO, warning, not threadsafe, lock just in case
+    private static HistoricalQueryCollection _instance;
+    public static HistoricalQueryCollection getInstance(){
+        if (null == _instance){
+            _instance = new HistoricalQueryCollectionImpl();
+        }
+        return _instance;
+    }
+
+    private HistoricalQueryCollectionImpl(){}
+
     private HashSet<Graph> _previousQueries = new HashSet<>();
 
     // TODO, store this in sql lite locally
