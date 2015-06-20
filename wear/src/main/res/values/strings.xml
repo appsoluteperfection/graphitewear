@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">GraphiteGear</string>
-    <string name="hello_round">Hello Round World!</string>
-    <string name="hello_square">Hello Square World!</string>
-    <string name="title_activity_graph_list">GraphListActivity</string>
+    <string name="app_name">Graphite Wear</string>
+    <string name="title_activity_graph_list">Choose Graphs</string>
 </resources>

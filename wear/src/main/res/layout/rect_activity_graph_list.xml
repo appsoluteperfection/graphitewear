@@ -6,7 +6,7 @@
     tools:deviceIds="wear_square">
 
     <ListView
-        android:id="@+id/list"
+        android:id="@+id/listGraphs"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"></ListView>
 </LinearLayout>

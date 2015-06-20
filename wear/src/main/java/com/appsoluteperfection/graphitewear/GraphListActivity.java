@@ -31,12 +31,12 @@ public class GraphListActivity extends RoboActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph_list);
-        final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
-        listView = (ListView)stub.findViewById(R.id.list);
+        final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub_list);
         final String graphResponse = getIntent().getStringExtra("graphResponse");
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
+                listView = (ListView)stub.findViewById(R.id.listGraphs);
                 setList(graphResponse);
             }
         });
