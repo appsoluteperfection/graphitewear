@@ -18,6 +18,7 @@ import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -33,8 +34,9 @@ public class ListenerService extends WearableListenerService {
     @Inject GraphiteQuery _graphiteQuery;
 
     public ListenerService(){
-        Context context = getBaseContext();
-        RoboGuice.getOrCreateBaseApplicationInjector((CustomApplication) context.getApplicationContext()).injectMembers(this);
+        CustomApplication applicationContext = (CustomApplication) getApplicationContext();
+        Injector injector = RoboGuice.getOrCreateBaseApplicationInjector(applicationContext);
+        injector.injectMembers(this);
     }
 
     @Override
