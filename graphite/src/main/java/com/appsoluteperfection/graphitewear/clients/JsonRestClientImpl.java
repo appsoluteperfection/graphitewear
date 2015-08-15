@@ -1,6 +1,7 @@
 package com.appsoluteperfection.graphitewear.clients;
 
 import android.os.Message;
+import android.util.Log;
 import android.util.Pair;
 
 import com.appsoluteperfection.graphitewear.serialization.JsonSerializer;
@@ -13,11 +14,14 @@ import org.apache.http.util.EntityUtils;
 
 import java.net.URI;
 
+import javax.inject.Inject;
 import javax.net.ssl.SSLException;
 
-import roboguice.util.Ln;
 
 public class JsonRestClientImpl implements JsonRestClient {
+
+    @Inject public JsonRestClientImpl(){}
+
     @Override
     public <T> T get(String url, Class<T> c) {
         Pair<Integer, String> results;
@@ -26,7 +30,7 @@ public class JsonRestClientImpl implements JsonRestClient {
         }
         catch (Exception exception){
             // TODO, probably handle edge cases here better
-            Ln.e(exception, "Unable to retrieve json result");
+            Log.e("JsonRest", "Unable to retrieve json result", exception);
             return null;
         }
 

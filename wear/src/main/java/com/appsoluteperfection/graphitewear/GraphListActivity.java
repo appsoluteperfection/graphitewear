@@ -21,9 +21,7 @@ import com.google.android.gms.wearable.Wearable;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
-import roboguice.activity.RoboActivity;
-
-public class GraphListActivity extends RoboActivity {
+public class GraphListActivity extends Activity {
 
     private ListView listView;
 

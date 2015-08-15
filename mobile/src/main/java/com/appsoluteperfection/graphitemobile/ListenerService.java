@@ -17,26 +17,33 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
+
+import org.easymock.internal.Injector;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
-import roboguice.RoboGuice;
-import roboguice.util.Ln;
+import javax.inject.Inject;
 
 
 public class ListenerService extends WearableListenerService {
 
-    @Inject HistoricalQueryCollection _historicalQueryCollection;
-    @Inject GraphiteQuery _graphiteQuery;
+    private HistoricalQueryCollection _historicalQueryCollection;
+    private GraphiteQuery _graphiteQuery;
+
+    @Inject
+    public ListenerService(HistoricalQueryCollection historicalQueryCollection,
+                           GraphiteQuery graphiteQuery){
+        this._historicalQueryCollection = historicalQueryCollection;
+        this._graphiteQuery = graphiteQuery;
+    }
+
 
     public ListenerService(){
-        CustomApplication applicationContext = (CustomApplication) getApplicationContext();
-        Injector injector = RoboGuice.getOrCreateBaseApplicationInjector(applicationContext);
-        injector.injectMembers(this);
+//        CustomApplication applicationContext = (CustomApplication) getApplicationContext();
+//        Injector injector = RoboGuice.getOrCreateBaseApplicationInjector(applicationContext);
+//        injector.injectMembers(this);
     }
 
     @Override

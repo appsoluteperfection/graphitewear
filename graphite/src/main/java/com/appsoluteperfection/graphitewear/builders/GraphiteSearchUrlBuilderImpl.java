@@ -1,12 +1,18 @@
 package com.appsoluteperfection.graphitewear.builders;
 
 import com.appsoluteperfection.graphitewear.configuration.ApplicationSettings;
-import com.google.inject.Inject;
+
+import javax.inject.Inject;
 
 public class GraphiteSearchUrlBuilderImpl implements GraphiteSearchUrlBuilder{
 
+    private ApplicationSettings _settings;
+
     @Inject
-    ApplicationSettings _settings;
+    public GraphiteSearchUrlBuilderImpl(ApplicationSettings settings){
+        _settings = settings;
+    }
+
     private String getBaseUrl(){
         return _settings.getGraphiteServerBaseUrl();
     }

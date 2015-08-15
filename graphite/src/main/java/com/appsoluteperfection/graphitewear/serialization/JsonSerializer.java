@@ -1,11 +1,11 @@
 package com.appsoluteperfection.graphitewear.serialization;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-
-import roboguice.util.Ln;
 
 public class JsonSerializer {
 
@@ -18,7 +18,7 @@ public class JsonSerializer {
             return objectMapper.readValue(json, c);
         } catch (IOException e) {
             // TODO, handle
-            Ln.e(e);
+            Log.e("deserialize", "Error deserializing", e);
             return null;
         }
     }
@@ -30,7 +30,7 @@ public class JsonSerializer {
             return objectMapper.writeValueAsString(object);
         } catch (Exception e) {
             // TODO, prolly more
-            Ln.e(e);
+            Log.e("serialize", "Error serializing", e);
         }
         return null;
     }

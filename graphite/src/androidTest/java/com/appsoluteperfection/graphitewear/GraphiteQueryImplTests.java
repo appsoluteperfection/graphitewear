@@ -4,12 +4,14 @@ import android.app.Application;
 import android.test.ApplicationTestCase;
 
 import com.appsoluteperfection.graphitewear.builders.GraphiteSearchUrlBuilder;
+import com.appsoluteperfection.graphitewear.clients.GraphiteClient;
 import com.appsoluteperfection.graphitewear.queries.GraphiteQueryImpl;
 
 import org.easymock.EasyMock;
 
 public class GraphiteQueryImplTests extends ApplicationTestCase<Application> {
     private GraphiteSearchUrlBuilder mockUrlBuilder;
+    private GraphiteClient mockClient;
 
     public GraphiteQueryImplTests() {
         super(Application.class);
@@ -18,13 +20,14 @@ public class GraphiteQueryImplTests extends ApplicationTestCase<Application> {
 
     public void setUp(){
         mockUrlBuilder = EasyMock.createNiceMock(GraphiteSearchUrlBuilder.class);
+        mockClient = EasyMock.createNiceMock(GraphiteClient.class);
     }
 
     public void testShouldNotCallUrlBuilderIfNoSearchPassedIn(){
         // Arrange
         mockUrlBuilder.buildFrom(EasyMock.anyString());
         EasyMock.expectLastCall().andThrow(new AssertionError()).anyTimes();
-        GraphiteQueryImpl classUnderTest = new GraphiteQueryImpl(mockUrlBuilder);
+        GraphiteQueryImpl classUnderTest = new GraphiteQueryImpl(mockClient);
 
         // Act
         classUnderTest.getGraphFromSearchString(null);
@@ -36,7 +39,7 @@ public class GraphiteQueryImplTests extends ApplicationTestCase<Application> {
         // Arrange
         mockUrlBuilder.buildFrom(EasyMock.anyString());
         EasyMock.expectLastCall().andThrow(new AssertionError()).anyTimes();
-        GraphiteQueryImpl classUnderTest = new GraphiteQueryImpl(mockUrlBuilder);
+        GraphiteQueryImpl classUnderTest = new GraphiteQueryImpl(mockClient);
 
         // Act
         classUnderTest.getGraphFromSearchString("");
@@ -50,7 +53,7 @@ public class GraphiteQueryImplTests extends ApplicationTestCase<Application> {
                 .andReturn("anything")
                 .atLeastOnce();
         EasyMock.replay(mockUrlBuilder);
-        GraphiteQueryImpl classUnderTest = new GraphiteQueryImpl(mockUrlBuilder);
+        GraphiteQueryImpl classUnderTest = new GraphiteQueryImpl(mockClient);
 
         // Act
         classUnderTest.getGraphFromSearchString("Ramalamadingdong");

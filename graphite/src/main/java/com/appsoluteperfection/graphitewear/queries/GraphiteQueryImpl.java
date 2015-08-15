@@ -3,17 +3,20 @@ package com.appsoluteperfection.graphitewear.queries;
 import com.appsoluteperfection.graphitewear.clients.GraphiteClient;
 import com.appsoluteperfection.graphitewear.dtos.GraphiteEntryDto;
 import com.appsoluteperfection.graphitewear.entities.Graph;
-import com.google.inject.Inject;
 
 import java.util.Collection;
-import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
+
+import javax.inject.Inject;
 
 public class GraphiteQueryImpl implements GraphiteQuery {
 
-    @Inject GraphiteClient _graphiteClient;
+    private GraphiteClient _graphiteClient;
+
+    @Inject
+    public GraphiteQueryImpl(GraphiteClient graphiteClient){
+        _graphiteClient = graphiteClient;
+    }
 
     @Override
     public Collection<Graph> getAll() {

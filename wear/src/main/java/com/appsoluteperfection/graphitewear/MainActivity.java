@@ -1,14 +1,13 @@
 package com.appsoluteperfection.graphitewear;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import roboguice.activity.RoboActivity;
-
-public class MainActivity extends RoboActivity {
+public class MainActivity extends Activity {
 
     private WebView webViewGraph;
 

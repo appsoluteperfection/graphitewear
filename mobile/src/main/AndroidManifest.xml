@@ -7,17 +7,11 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name="com.appsoluteperfection.graphitemobile.CustomApplication"
+        android:name="com.appsoluteperfection.graphitemobile.bindings.SharedApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <meta-data
-            android:name="roboguice.modules"
-            android:value="com.appsoluteperfection.graphitemobile.bindings.MobileBindings,com.appsoluteperfection.graphitewear.bindings.SharedBindings" />
-        <meta-data
-            android:name="roboguice.annotations.packages"
-            android:value="roboguice,databasename" />
         <activity
             android:name="com.appsoluteperfection.graphitemobile.MainActivity"
             android:label="@string/app_name" >

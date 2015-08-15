@@ -2,17 +2,17 @@ package com.appsoluteperfection.graphitemobile;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -20,29 +20,22 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.HeaderViewListAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.appsoluteperfection.graphitemobile.NavigationDrawerFragment;
+import com.appsoluteperfection.graphitemobile.bindings.SharedApplication;
 import com.appsoluteperfection.graphitewear.entities.Graph;
 import com.appsoluteperfection.graphitewear.queries.GraphiteQuery;
 import com.appsoluteperfection.graphitewear.queries.HistoricalQueryCollection;
-import com.google.inject.Inject;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import roboguice.RoboGuice;
-import roboguice.activity.RoboActionBarActivity;
-import roboguice.fragment.RoboFragment;
-import roboguice.inject.InjectView;
+import javax.inject.Inject;
 
 
-public class MainActivity extends RoboActionBarActivity
+public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
 
@@ -134,7 +127,7 @@ public class MainActivity extends RoboActionBarActivity
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends RoboFragment {
+    public static class PlaceholderFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -142,22 +135,16 @@ public class MainActivity extends RoboActionBarActivity
         private static final String ARG_SECTION_NUMBER = "section_number";
         private static final String ARG_SEARCH_STRING = "search_string";
 
-        @InjectView(R.id.searchText)
+
+
         EditText searchText;
-        @InjectView(R.id.btnSearch)
         ImageButton btnSearch;
-        @InjectView(R.id.webViewGraph)
         WebView webViewGraph;
-        @InjectView(R.id.txtResults)
         TextView txtResults;
-        @InjectView(R.id.list)
         ListView listView;
 
-        @Inject
-        GraphiteQuery _graphQuery;
-        @Inject
-        HistoricalQueryCollection _history;
-
+        @Inject GraphiteQuery _graphQuery;
+        @Inject HistoricalQueryCollection _history;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -177,8 +164,31 @@ public class MainActivity extends RoboActionBarActivity
         @Override
         public void onViewCreated(View view, Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            RoboGuice.getInjector(getActivity()).injectViewMembers(this);
+
+            SetupUI(view);
             ArrangeUI();
+        }
+
+        /**
+         * Finds a view that was identified by the id attribute from the XML that was processed in
+         * {@link #onCreate(Bundle)} and performs an unchecked cast to the destination type.
+         *
+         * @param id View ID.
+         * @param <T> Destination cast class type.
+         * @return The view if found or {@code null} otherwise.
+         */
+        @SuppressWarnings("unchecked")
+        public <T extends View> T findById(View view, int id) {
+            return (T) view.findViewById(id);
+        }
+
+        private void SetupUI(View view) {
+            SharedApplication.getComponent(getActivity()).inject(this);
+            searchText = findById(view, R.id.searchText);
+            btnSearch = findById(view, R.id.btnSearch);
+            webViewGraph = findById(view, R.id.webViewGraph);
+            txtResults = findById(view, R.id.txtResults);
+            listView = findById(view, R.id.list);
         }
 
         @Override

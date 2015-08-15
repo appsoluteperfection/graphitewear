@@ -3,15 +3,23 @@ package com.appsoluteperfection.graphitewear.clients;
 import com.appsoluteperfection.graphitewear.builders.GraphiteSearchUrlBuilder;
 import com.appsoluteperfection.graphitewear.dtos.GraphiteEntryCollectionDto;
 import com.appsoluteperfection.graphitewear.dtos.GraphiteEntryDto;
-import com.google.inject.Inject;
 
 import java.util.Collection;
-import java.util.LinkedList;
+
+import javax.inject.Inject;
 
 public class GraphiteClientImpl implements GraphiteClient {
 
-    @Inject GraphiteSearchUrlBuilder _urlBuilder;
-    @Inject JsonRestClient _restClient;
+    private GraphiteSearchUrlBuilder _urlBuilder;
+    private JsonRestClient _restClient;
+
+    @Inject
+    public GraphiteClientImpl(GraphiteSearchUrlBuilder urlBuilder,
+                              JsonRestClient restClient){
+
+        _urlBuilder = urlBuilder;
+        _restClient = restClient;
+    }
 
     public Collection<GraphiteEntryDto> getGraphsFrom(String searchString){
         String searchUrl = _urlBuilder.buildFrom(searchString);
