@@ -1,4 +1,4 @@
-package com.appsoluteperfection.graphitewear;
+package com.appsoluteperfection.graphitewear.bindings;
 
 import android.app.Application;
 

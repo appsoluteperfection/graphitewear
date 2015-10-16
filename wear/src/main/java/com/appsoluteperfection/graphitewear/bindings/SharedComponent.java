@@ -1,7 +1,8 @@
-package com.appsoluteperfection.graphitewear;
+package com.appsoluteperfection.graphitewear.bindings;
 
 import android.app.Application;
 
+import com.appsoluteperfection.graphitewear.MainActivity;
 import com.appsoluteperfection.graphitewear.clients.GraphiteClient;
 import com.appsoluteperfection.graphitewear.clients.JsonRestClient;
 import com.appsoluteperfection.graphitewear.configuration.ApplicationSettings;
@@ -19,7 +20,6 @@ public interface SharedComponent {
     Application application();
 
     void inject(MainActivity activity);
-    void inject(MainActivity.PlaceholderFragment fragment);
 
     GraphiteQuery provideGraphiteQuery();
 

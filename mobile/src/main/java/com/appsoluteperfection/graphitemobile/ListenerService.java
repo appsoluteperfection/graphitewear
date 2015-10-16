@@ -1,6 +1,5 @@
 package com.appsoluteperfection.graphitemobile;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.appsoluteperfection.graphitewear.contexts.GoogleWearClientProvider;
@@ -9,18 +8,13 @@ import com.appsoluteperfection.graphitewear.dtos.GraphRequestType;
 import com.appsoluteperfection.graphitewear.dtos.GraphWearResponse;
 import com.appsoluteperfection.graphitewear.entities.Graph;
 import com.appsoluteperfection.graphitewear.queries.GraphiteQuery;
-import com.appsoluteperfection.graphitewear.queries.GraphiteQueryImpl;
 import com.appsoluteperfection.graphitewear.queries.HistoricalQueryCollection;
-import com.appsoluteperfection.graphitewear.queries.HistoricalQueryCollectionImpl;
 import com.appsoluteperfection.graphitewear.serialization.JsonSerializer;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 
-import org.easymock.internal.Injector;
-
-import java.io.IOException;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
@@ -37,13 +31,6 @@ public class ListenerService extends WearableListenerService {
                            GraphiteQuery graphiteQuery){
         this._historicalQueryCollection = historicalQueryCollection;
         this._graphiteQuery = graphiteQuery;
-    }
-
-
-    public ListenerService(){
-//        CustomApplication applicationContext = (CustomApplication) getApplicationContext();
-//        Injector injector = RoboGuice.getOrCreateBaseApplicationInjector(applicationContext);
-//        injector.injectMembers(this);
     }
 
     @Override
